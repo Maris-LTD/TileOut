@@ -1,0 +1,33 @@
+{
+    "name": "com.gamemodules.datamanager",
+    "version": "1.0.0",
+    "displayName": "Game Modules - Data Manager",
+    "description": "Central data management module for game modules, using reflection to automatically detect DataProvider.",
+    "unity": "2022.3",
+    "dependencies": {
+        "jp.hadashikick.vcontainer": "1.17.0"
+    },
+    "keywords": [
+        "data",
+        "manager",
+        "provider",
+        "reflection",
+        "modular",
+        "game-modules"
+    ],
+    "author": {
+        "name": "Le Tuan Dat"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/gamemodules/datamanager.git"
+    },
+    "samples": [
+        {
+            "displayName": "Basic Usage",
+            "description": "Basic Sample about the way to use DataManager",
+            "path": "Samples~/BasicUsage"
+        }
+    ]
+}

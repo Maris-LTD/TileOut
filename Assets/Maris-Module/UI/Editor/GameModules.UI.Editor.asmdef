@@ -1,0 +1,26 @@
+{
+    "name": "GameModules.UI.Editor",
+    "rootNamespace": "GameModules.UI.Editor",
+    "references": [
+        "GameModules.UI",
+        "ZBase.UnityScreenNavigator",
+        "DOTweenPro.Scripts",
+        "GameModules.Core",
+        "DOTween.Modules"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
+
+
+
+

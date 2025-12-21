@@ -1,0 +1,18 @@
+{
+    "name": "GameModules.DataManager.Editor",
+    "rootNamespace": "GameModules.DataManager.Editor",
+    "references": [
+        "GameModules.DataManager"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

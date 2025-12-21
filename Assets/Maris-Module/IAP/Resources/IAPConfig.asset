@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1abcf884f3d3d84aa522400ec568829, type: 3}
+  m_Name: IAPConfig
+  m_EditorClassIdentifier: 
+  environment: production
+  enableReceiptValidation: 0
+  isDevMode: 1
+  productDataList:
+  - {fileID: 11400000, guid: eff2b3b59c7f08646af7624a7d0e3f7d, type: 2}
+  - {fileID: 11400000, guid: 2e0e99d6ddac5774181651675a85ce45, type: 2}
+  - {fileID: 11400000, guid: 2b61391f4b464c74eb24f83b5fdc02e1, type: 2}
+  - {fileID: 11400000, guid: a3b8f14b6899e174fb8f781264244ab6, type: 2}
+  - {fileID: 11400000, guid: fa9dd840962fb1340ab7b02091a99c6f, type: 2}
+  - {fileID: 11400000, guid: b1160ad4f9c9c634687d080f33d5d9db, type: 2}

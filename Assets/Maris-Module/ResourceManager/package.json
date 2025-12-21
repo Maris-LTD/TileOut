@@ -1,0 +1,21 @@
+{
+    "name": "com.gamemodules.resourcemanager",
+    "version": "1.0.0",
+    "displayName": "Game Modules - Resource Manager",
+    "description": "Module quản lý resources trong game (currency, energy, consumables, etc.)",
+    "unity": "2022.3",
+    "dependencies": {
+        "com.unity.textmeshpro": "3.0.0"
+    },
+    "keywords": [
+        "resource",
+        "currency",
+        "energy",
+        "inventory",
+        "game"
+    ],
+    "author": {
+        "name": "Maris"
+    }
+}
+

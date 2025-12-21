@@ -1,0 +1,21 @@
+{
+    "name": "IAPModule",
+    "rootNamespace": "IAPModule",
+    "references": [
+        "Unity.Services.Core",
+        "Unity.Purchasing",
+        "GameModules.Core",
+        "VContainer",
+        "NewAssembly",
+        "MessagePipe"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
