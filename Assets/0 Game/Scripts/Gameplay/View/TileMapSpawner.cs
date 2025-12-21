@@ -17,13 +17,14 @@ namespace Game.Gameplay.Views
         private GameplayConfig _config;
         private float _tileSize;
         private float _spacing;
-        private IObjectResolver _resolver;
-        private ISpawner _spawner;
+        private readonly IObjectResolver _resolver;
+        private readonly ISpawner _spawner;
         private const string TILE_VIEW_PREFAB_PATH = "Prefabs/TileView";
         private const string GAMEPLAY_CONFIG_PATH = "GameplayConfig";
         private const string TILES_PARENT_NAME = "TilesParent";
 
-        public void Initialize(IObjectResolver resolver, ISpawner spawner)
+        [Inject]
+        public TileMapSpawner(IObjectResolver resolver, ISpawner spawner)
         {
             _resolver = resolver;
             _spawner = spawner;

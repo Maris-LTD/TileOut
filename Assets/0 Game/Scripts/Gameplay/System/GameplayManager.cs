@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.Gameplay.Data;
 using Game.Gameplay.Entities;
 using Game.Gameplay.Event;
@@ -9,7 +10,7 @@ using VContainer;
 
 namespace Game.Gameplay.System
 {
-    public class GameplayManager
+    public class GameplayManager : IDisposable
     {
         private readonly TileGrid _tileGrid;
         private readonly TileMovementSystem _movementSystem;
@@ -173,6 +174,11 @@ namespace Game.Gameplay.System
         public List<Tile> GetMovableTiles()
         {
             return _movementSystem.GetAllMovableTiles(_tileGrid);
+        }
+
+        public void Dispose()
+        {
+            Cleanup();
         }
     }
 }

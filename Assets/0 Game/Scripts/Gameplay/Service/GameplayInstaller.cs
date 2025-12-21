@@ -3,7 +3,6 @@ using Game.Gameplay.Services;
 using Game.Gameplay.System;
 using Game.Gameplay.Views;
 using GameModules.Core;
-using GameModules.Spawner.Core;
 using VContainer;
 
 namespace Game.Gameplay.Installers
@@ -35,23 +34,17 @@ namespace Game.Gameplay.Installers
 
         private void RegisterTileMapSpawner(IContainerBuilder builder)
         {
-            builder.Register(container =>
-            {
-                var spawnerService = container.Resolve<ISpawner>();
-                var tileMapSpawner = new TileMapSpawner();
-                tileMapSpawner.Initialize(container, spawnerService);
-                return tileMapSpawner;
-            }, Lifetime.Singleton);
+            builder.Register<TileMapSpawner>(Lifetime.Scoped);
         }
 
         private void RegisterGameplayManager(IContainerBuilder builder)
         {
-            builder.Register<GameplayManager>(Lifetime.Singleton);
+            builder.Register<GameplayManager>(Lifetime.Scoped);
         }
 
         private void RegisterGameplayService(IContainerBuilder builder)
         {
-            builder.Register<IGameplayService, GameplayService>(Lifetime.Singleton);
+            builder.Register<IGameplayService, GameplayService>(Lifetime.Scoped);
         }
 
         private void InitializeGameplayManager(IContainerBuilder builder)

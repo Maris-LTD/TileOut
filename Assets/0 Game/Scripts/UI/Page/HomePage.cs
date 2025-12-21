@@ -65,7 +65,7 @@ namespace MateInN.UI
 
             _levelChainNodes.Clear();
 
-            int currentLevelIndex = 5;
+            int currentLevelIndex = 1;
             int count = CalculateAllNodeOnLevelChain();
 
             for (int i = 0; i < count; i++)
