@@ -394,10 +394,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2602336662296548274, guid: ee0aeb65e975d5b4dab94677e94c776e, type: 3}
-      propertyPath: m_SortingLayer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3093697977237285869, guid: ee0aeb65e975d5b4dab94677e94c776e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -418,21 +414,9 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3694229128914736621, guid: ee0aeb65e975d5b4dab94677e94c776e, type: 3}
-      propertyPath: m_SortingLayer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6974550816086919051, guid: ee0aeb65e975d5b4dab94677e94c776e, type: 3}
       propertyPath: m_Name
       value: TopBar
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127434552509337028, guid: ee0aeb65e975d5b4dab94677e94c776e, type: 3}
-      propertyPath: m_Name
-      value: SettingButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 9056413278710409983, guid: ee0aeb65e975d5b4dab94677e94c776e, type: 3}
-      propertyPath: m_SortingLayer
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
