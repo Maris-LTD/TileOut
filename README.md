@@ -1,102 +1,102 @@
 # TileOut - Game Project
 
-Dự án game puzzle tile-based được xây dựng trên Unity với kiến trúc module hóa, sử dụng VContainer cho Dependency Injection và MessagePipe cho Event System.
+A puzzle tile-based game project built on Unity with a modular architecture, utilizing VContainer for Dependency Injection and MessagePipe for the Event System.
 
-## 📋 Mục lục
+## 📋 Table of Contents
 
-- [Tổng quan](#tổng-quan)
-- [Kiến trúc dự án](#kiến-trúc-dự-án)
-- [Các Module chính](#các-module-chính)
-- [Cách chạy game](#cách-chạy-game)
+- [Overview](#overview)
+- [Project Architecture](#project-architecture)
+- [Core Modules](#core-modules)
+- [How to Run the Game](#how-to-run-the-game)
 - [Game Flow](#game-flow)
-- [Cấu trúc thư mục](#cấu-trúc-thư-mục)
+- [Directory Structure](#directory-structure)
 
-## 🎮 Tổng quan
+## 🎮 Overview
 
-**TileOut** là một game puzzle nơi người chơi cần di chuyển các tile theo hướng được chỉ định để loại bỏ chúng khỏi bảng. Mục tiêu là loại bỏ tất cả các tile để hoàn thành level.
+**TileOut** is a puzzle game where players need to move tiles in specified directions to remove them from the board. The goal is to clear all tiles to complete the level.
 
-### Tính năng chính:
-- Hệ thống level với cơ chế tile movement
-- UI system với Screen/Sheet/Popup architecture
-- Camera system tự động điều chỉnh theo grid
+### Key Features:
+- Level system with tile movement mechanics
+- UI system with Screen/Sheet/Popup architecture
+- Camera system that automatically frames the grid
 - Resource management system
 - Event-driven architecture
 
-## 🏗️ Kiến trúc dự án
+## 🏗️ Project Architecture
 
-Dự án sử dụng **Modular Architecture** với các đặc điểm:
+The project uses a **Modular Architecture** with the following characteristics:
 
-- **Dependency Injection**: VContainer với auto-install system
-- **Event System**: MessagePipe với wrapper EventBus
-- **Module System**: Tự động scan và install modules theo scope (Project/Scene/GameObject)
-- **Lifetime Management**: Scoped services với IDisposable pattern
+- **Dependency Injection**: VContainer with auto-install system
+- **Event System**: MessagePipe with an EventBus wrapper
+- **Module System**: Auto-scans and installs modules by scope (Project/Scene/GameObject)
+- **Lifetime Management**: Scoped services with the IDisposable pattern
 
 ### Scope System:
-- **Project Scope**: Services tồn tại xuyên suốt project (ResourceManager, EventBus)
-- **Scene Scope**: Services chỉ tồn tại trong scene hiện tại (GameplayManager, SpawnerService)
+- **Project Scope**: Services exist throughout the project (ResourceManager, EventBus)
+- **Scene Scope**: Services only exist in the current scene (GameplayManager, SpawnerService)
 
-## 📦 Các Module chính
+## 📦 Core Modules
 
 ### 1. **ModuleManager** (`Assets/Maris-Module/ModuleManager/`)
-Module core quản lý việc tự động scan và install các module khác.
+Core module managing the auto-scanning and installation of other modules.
 
-**Tính năng:**
-- Auto-install modules dựa trên `[AutoInstall]` attribute
+**Features:**
+- Auto-install modules based on the `[AutoInstall]` attribute
 - Module scope management (Project/Scene/GameObject)
 - Auto-inject MonoBehaviour components
 - Lifetime scope management (ProjectLifeTimeScope, SceneLifetimeScope)
 
-**Các class chính:**
-- `ModuleRegistry`: Quản lý danh sách installers
-- `AutoInstaller`: Tự động install modules
-- `AutoInjectProcessor`: Tự động inject dependencies vào MonoBehaviour
+**Core Classes:**
+- `ModuleRegistry`: Manages the list of installers
+- `AutoInstaller`: Auto-installs modules
+- `AutoInjectProcessor`: Auto-injects dependencies into MonoBehaviours
 
 ### 2. **UI Module** (`Assets/Maris-Module/UI/`)
-Hệ thống UI dựa trên ZBase.UnityScreenNavigator với 3 tầng: Screen, Sheet, Popup.
+UI system based on ZBase.UnityScreenNavigator with 3 layers: Screen, Sheet, Popup.
 
-**Tính năng:**
-- Navigation service cho Screen/Sheet/Popup
+**Features:**
+- Navigation service for Screen/Sheet/Popup
 - Base classes: `BaseScreen`, `BaseSheet`, `BasePopup`
 - Container management
 - Transition animations
 
-**Các class chính:**
-- `UINavigationService`: Service điều hướng UI
-- `BaseScreen`: Base class cho screens
-- `BaseSheet`: Base class cho sheets (InGameSheet, OutGameSheet)
-- `BasePopup`: Base class cho popups (VictoryPopup, LoadingPopup, ConfirmPopup)
+**Core Classes:**
+- `UINavigationService`: UI navigation service
+- `BaseScreen`: Base class for screens
+- `BaseSheet`: Base class for sheets (InGameSheet, OutGameSheet)
+- `BasePopup`: Base class for popups (VictoryPopup, LoadingPopup, ConfirmPopup)
 
 ### 3. **Gameplay Module** (`Assets/0 Game/Scripts/Gameplay/`)
-Module chứa logic game chính.
+Module containing the main game logic.
 
-**Các component:**
-- **GameplayManager**: Quản lý gameplay state, xử lý events, kiểm tra win condition
-- **TileGrid**: Quản lý grid và tiles
-- **TileMovementSystem**: Logic di chuyển tiles
-- **TileMapSpawner**: Spawn và quản lý tile views
-- **GameplayService**: Interface service cho gameplay
+**Components:**
+- **GameplayManager**: Manages gameplay state, handles events, checks win conditions
+- **TileGrid**: Manages the grid and tiles
+- **TileMovementSystem**: Tile movement logic
+- **TileMapSpawner**: Spawns and manages tile views
+- **GameplayService**: Interface service for gameplay
 
 **Lifetime**: Scoped (Scene scope)
 
 ### 4. **Spawner Module** (`Assets/Maris-Module/Spawner/`)
-Object pooling system sử dụng uPools.
+Object pooling system using uPools.
 
-**Tính năng:**
-- Rent/Return pattern cho GameObject pooling
-- Tự động quản lý parent transforms
+**Features:**
+- Rent/Return pattern for GameObject pooling
+- Auto-manages parent transforms
 - Prewarm support
 
-**Các class chính:**
-- `SpawnerService`: Service chính cho object pooling
-- `ISpawner`: Interface cho spawner
+**Core Classes:**
+- `SpawnerService`: Main service for object pooling
+- `ISpawner`: Interface for the spawner
 
 **Lifetime**: Scoped (Scene scope)
 
 ### 5. **ResourceManager Module** (`Assets/Maris-Module/ResourceManager/`)
-Quản lý game resources (coins, gems, energy, etc.).
+Manages game resources (coins, gems, energy, etc.).
 
-**Tính năng:**
-- Resource definitions và registry
+**Features:**
+- Resource definitions and registry
 - Storage system (PlayerPrefs)
 - Resource regeneration
 - Offline regeneration calculation
@@ -104,38 +104,38 @@ Quản lý game resources (coins, gems, energy, etc.).
 **Lifetime**: Singleton (Project scope)
 
 ### 6. **CameraSystem Module** (`Assets/Maris-Module/CameraSystem/`)
-Hệ thống quản lý camera với Cinemachine.
+Camera management system using Cinemachine.
 
-**Tính năng:**
+**Features:**
 - Camera rig authoring
 - Camera director service
-- Auto-framing theo grid bounds
+- Auto-framing based on grid bounds
 - Camera behaviors (zoom, movement)
 
-**Các class chính:**
-- `CameraRigAuthoring`: Authoring component cho camera rigs
-- `ICameraDirectorService`: Service điều khiển camera
-- `GameCameraSetup`: Setup camera cho gameplay scene
+**Core Classes:**
+- `CameraRigAuthoring`: Authoring component for camera rigs
+- `ICameraDirectorService`: Camera control service
+- `GameCameraSetup`: Camera setup for the gameplay scene
 
 ### 7. **PubSubEvent Module** (`Assets/Maris-Module/PubSubEvent/`)
-Event system wrapper trên MessagePipe.
+Event system wrapper on MessagePipe.
 
-**Tính năng:**
+**Features:**
 - Subscribe/Unsubscribe/Publish events
 - Global event bus
 - Handler pooling
 - Auto-registration
 
-**Các class chính:**
-- `IEventBus` / `IGlobalEventBus`: Interface cho event bus
-- `EventBus`: Implementation của event bus
+**Core Classes:**
+- `IEventBus` / `IGlobalEventBus`: Interface for the event bus
+- `EventBus`: Event bus implementation
 
 **Lifetime**: Singleton (Project scope)
 
 ### 8. **DataManager Module** (`Assets/Maris-Module/DataManager/`)
-Quản lý data persistence.
+Manages data persistence.
 
-**Tính năng:**
+**Features:**
 - Data providers
 - Save/Load system
 - Data registry
@@ -143,33 +143,33 @@ Quản lý data persistence.
 ### 9. **IAP Module** (`Assets/Maris-Module/IAP/`)
 In-app purchase system.
 
-**Tính năng:**
+**Features:**
 - Product management
 - Purchase handling
 - Reward system
 
-## 🚀 Cách chạy game
+## 🚀 How to Run the Game
 
-### Yêu cầu:
-- Unity 2021.3 LTS trở lên
-- Các packages: VContainer, MessagePipe, DOTween, uPools, Cinemachine
+### Requirements:
+- Unity 2021.3 LTS or higher
+- Packages: VContainer, MessagePipe, DOTween, uPools, Cinemachine
 
-### Các bước:
+### Steps:
 
-1. **Mở project trong Unity Editor**
+1. **Open the project in Unity Editor**
 
-2. **Chọn LoadingScene làm scene khởi động:**
-   - Vào `File > Build Settings`
-   - Kéo `Assets/0 Game/Scenes/LoadingScene.unity` vào Build Settings
-   - Đặt làm scene đầu tiên (index 0)
+2. **Set LoadingScene as the startup scene:**
+   - Go to `File > Build Settings`
+   - Drag `Assets/0 Game/Scenes/LoadingScene.unity` into Build Settings
+   - Set it as the first scene (index 0)
 
-3. **Đảm bảo có ProjectLifeTimeScope trong scene:**
-   - LoadingScene cần có GameObject với component `ProjectLifeTimeScope`
-   - Component này sẽ tự động install các Project-scope modules
+3. **Ensure ProjectLifeTimeScope is in the scene:**
+   - LoadingScene needs a GameObject with the `ProjectLifeTimeScope` component
+   - This component will automatically install Project-scope modules
 
-4. **Chạy game:**
-   - Nhấn Play trong Unity Editor
-   - Hoặc build và chạy executable
+4. **Run the game:**
+   - Press Play in the Unity Editor
+   - Or build and run the executable
 
 ### Scene Flow:
 ```
@@ -177,18 +177,18 @@ LoadingScene → PlayScene
 ```
 
 **LoadingScene:**
-- Hiển thị loading progress
-- Tự động chuyển sang PlayScene sau khi load xong
-- Duration: 2.5 giây (có thể config)
+- Displays loading progress
+- Automatically transitions to PlayScene after loading is complete
+- Duration: 2.5 seconds (configurable)
 
 **PlayScene:**
-- Chứa SceneLifetimeScope để install Scene-scope modules
-- Tự động hiển thị OutGameSheet (HomePage) khi start
-- Chứa UI containers (ScreenContainer, SheetContainer, PopupContainer)
+- Contains SceneLifetimeScope to install Scene-scope modules
+- Automatically displays OutGameSheet (HomePage) on start
+- Contains UI containers (ScreenContainer, SheetContainer, PopupContainer)
 
 ## 🎯 Game Flow
 
-### 1. **Khởi động (LoadingScene)**
+### 1. **Startup (LoadingScene)**
 ```
 LoadingScene Start
   ↓
@@ -215,9 +215,9 @@ Display Level Chain
 ```
 
 **HomePage Features:**
-- Hiển thị level chain với các level nodes
-- Nút Play để bắt đầu level
-- Nút Settings (coming soon)
+- Displays level chain with level nodes
+- Play button to start a level
+- Settings button (coming soon)
 
 ### 3. **Gameplay (InGameSheet)**
 ```
@@ -246,10 +246,10 @@ Gameplay Loop:
 ```
 
 **Gameplay Mechanics:**
-- **Tile Movement**: Mỗi tile có hướng (Up/Down/Left/Right)
-- **Movement Logic**: Tile di chuyển theo hướng cho đến khi gặp obstacle hoặc ra khỏi grid
-- **Win Condition**: Tất cả tiles được loại bỏ khỏi grid
-- **Blocked Feedback**: Hiển thị animation khi tile không thể di chuyển
+- **Tile Movement**: Each tile has a direction (Up/Down/Left/Right)
+- **Movement Logic**: Tile moves in its direction until it hits an obstacle or goes out of the grid
+- **Win Condition**: All tiles are removed from the grid
+- **Blocked Feedback**: Shows animation when a tile cannot move
 
 ### 4. **Level Completion**
 ```
@@ -285,22 +285,22 @@ Tile Interaction:
   InGameSheet updates UI
 ```
 
-## 📁 Cấu trúc thư mục
+## 📁 Directory Structure
 
 ```
 Assets/
-├── 0 Game/                          # Game code chính
+├── 0 Game/                          # Main game code
 │   ├── Scripts/
 │   │   ├── Camera/                  # Camera behaviors
 │   │   ├── Gameplay/                 # Gameplay logic
 │   │   │   ├── Data/                # Gameplay data (LevelData, GameplayConfig)
 │   │   │   ├── Entity/              # Game entities (Tile, TileGrid)
 │   │   │   ├── Event/               # Gameplay events
-│   │   │   ├── Service/             # Services và Installers
+│   │   │   ├── Service/             # Services and Installers
 │   │   │   ├── System/              # Game systems (GameplayManager, TileMovementSystem)
 │   │   │   └── View/                # Views (TileView, TileMapSpawner)
 │   │   ├── Shop/                    # Shop system
-│   │   └── UI/                      # UI controllers và pages
+│   │   └── UI/                      # UI controllers and pages
 │   │       ├── Page/                # Pages (HomePage)
 │   │       ├── Popups/              # Popups (Victory, Loading, Confirm)
 │   │       └── Sheets/              # Sheets (InGameSheet, OutGameSheet)
@@ -312,7 +312,7 @@ Assets/
 │   ├── CameraSystem/                # Camera management
 │   ├── DataManager/                 # Data persistence
 │   ├── IAP/                         # In-app purchases
-│   ├── ModuleManager/               # Module management core
+│   ├── ModuleManager/               # Core module management
 │   ├── PubSubEvent/                 # Event system
 │   ├── ResourceManager/            # Resource management
 │   ├── Spawner/                     # Object pooling
@@ -325,50 +325,50 @@ Assets/
     └── Levels/                      # Level data files (JSON)
 ```
 
-## 🔧 Kiến trúc kỹ thuật
+## 🔧 Technical Architecture
 
 ### Dependency Injection Pattern:
 - **VContainer**: DI framework
-- **Auto-Install**: Modules tự động được install dựa trên `[AutoInstall]` attribute
+- **Auto-Install**: Modules are auto-installed based on the `[AutoInstall]` attribute
 - **Lifetime Scopes**: 
   - Project: Singleton services (ResourceManager, EventBus)
   - Scene: Scoped services (GameplayManager, SpawnerService)
 
 ### Event-Driven Architecture:
 - **MessagePipe**: Event system backend
-- **EventBus**: Wrapper với Subscribe/Unsubscribe/Publish API
+- **EventBus**: Wrapper with Subscribe/Unsubscribe/Publish API
 - **Event Types**: 
-  - `TileTappedEvent`: Khi user tap vào tile
-  - `TileMovedEvent`: Khi tile di chuyển thành công
-  - `TileBlockedEvent`: Khi tile không thể di chuyển
-  - `LevelInitializedEvent`: Khi level được load
-  - `LevelCompletedEvent`: Khi level hoàn thành
+  - `TileTappedEvent`: When a user taps a tile
+  - `TileMovedEvent`: When a tile successfully moves
+  - `TileBlockedEvent`: When a tile cannot move
+  - `LevelInitializedEvent`: When a level is loaded
+  - `LevelCompletedEvent`: When a level is completed
 
 ### Object Pooling:
 - **uPools**: Pooling library
-- **SpawnerService**: Wrapper service với Rent/Return pattern
-- **TileView**: Sử dụng pooling để tối ưu performance
+- **SpawnerService**: Wrapper service with Rent/Return pattern
+- **TileView**: Uses pooling to optimize performance
 
-## 📝 Lưu ý
+## 📝 Notes
 
-1. **Scene Setup**: Mỗi scene cần có `SceneLifetimeScope` để install Scene-scope modules
-2. **Project Scope**: Cần có `ProjectLifeTimeScope` trong scene đầu tiên (LoadingScene)
-3. **Level Data**: Level data được lưu trong `Resources/Levels/` dưới dạng JSON
-4. **Config Files**: GameplayConfig và các config khác trong `Resources/`
+1. **Scene Setup**: Each scene needs a `SceneLifetimeScope` to install Scene-scope modules
+2. **Project Scope**: A `ProjectLifeTimeScope` is required in the first scene (LoadingScene)
+3. **Level Data**: Level data is saved in `Resources/Levels/` as JSON
+4. **Config Files**: GameplayConfig and other configs are in `Resources/`
 
 ## 🎨 Gameplay Details
 
 ### Tile Movement:
-- Mỗi tile có một hướng (Up, Down, Left, Right)
-- Khi tap vào tile, nó sẽ di chuyển theo hướng đó
-- Tile di chuyển cho đến khi:
-  - Gặp tile khác chặn đường
-  - Ra khỏi grid boundaries
-  - Đạt đến vị trí target
+- Each tile has a direction (Up, Down, Left, Right)
+- When a tile is tapped, it moves in that direction
+- The tile moves until:
+  - It hits another tile blocking the path
+  - It goes outside the grid boundaries
+  - It reaches its target position
 
 ### Win Condition:
-- Tất cả tiles phải được loại bỏ khỏi grid
-- Khi không còn tile nào, level hoàn thành
+- All tiles must be removed from the grid
+- When no tiles are left, the level is completed
 
 ### Level Data Format:
 ```json
