@@ -85,9 +85,6 @@ MonoBehaviour:
   progressText: {fileID: 5908401061098759982}
   canvasGroup: {fileID: 6601751409814328121}
   contentPanel: {fileID: 4873091666688139249}
-  animationDuration: 0.3
-  showStartScale: 1.2
-  hideEndScale: 1.2
 --- !u!114 &2699698438579588003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +192,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Loading...75%
+  m_text: Loading...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 50c12c23294124aa48490c44ac65a9e4, type: 2}
   m_sharedMaterial: {fileID: 7746803525459343344, guid: 50c12c23294124aa48490c44ac65a9e4, type: 2}

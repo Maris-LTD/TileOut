@@ -86,7 +86,7 @@ namespace GameModules.DataManager
             {
                 if (!string.IsNullOrEmpty(provider.className))
                 {
-                    var type = Type.GetType(provider.className);
+                    var type = Type.GetType(provider.className) ?? FindTypeByName(provider.className);
                     if (type == null)
                     {
                         invalidClasses.Add(provider.className);
@@ -95,6 +95,19 @@ namespace GameModules.DataManager
             }
             
             return invalidClasses;
+        }
+
+        private Type FindTypeByName(string typeName)
+        {
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                var type = assembly.GetType(typeName);
+                if (type != null)
+                {
+                    return type;
+                }
+            }
+            return null;
         }
     }
 }

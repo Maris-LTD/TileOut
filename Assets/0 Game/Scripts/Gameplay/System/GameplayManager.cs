@@ -144,7 +144,6 @@ namespace Game.Gameplay.System
             {
                 _isPlaying = false;
                 _tileMapSpawner?.PlayFadeOutForAll();
-                Debug.Log("Complete Game");
                 _eventBus?.Publish(new LevelCompletedEvent(_currentLevel));
             }
             else if (!_movementSystem.HasAnyMovableTile(_tileGrid))

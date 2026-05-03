@@ -13,7 +13,7 @@ namespace GameModules.UI.Base
         where TResult : class
     {
         protected IObjectResolver Resolver { get; private set; }
-        protected TData Data { get; private set; }
+        public TData Data { get; set; }
         private TResult _result;
 
         public void InjectDependencies(IObjectResolver resolver)

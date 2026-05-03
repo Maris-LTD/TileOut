@@ -20,7 +20,7 @@
     },
     {
       "position": {
-        "x": 3,
+        "x": 5,
         "y": 5
       },
       "direction": 0
@@ -167,13 +167,6 @@
     },
     {
       "position": {
-        "x": 6,
-        "y": 2
-      },
-      "direction": 3
-    },
-    {
-      "position": {
         "x": 2,
         "y": 1
       },
@@ -189,13 +182,6 @@
     {
       "position": {
         "x": 4,
-        "y": 1
-      },
-      "direction": 3
-    },
-    {
-      "position": {
-        "x": 5,
         "y": 1
       },
       "direction": 3

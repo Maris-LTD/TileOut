@@ -2,7 +2,8 @@
     "name": "GameModules.DataManager",
     "rootNamespace": "GameModules.DataManager",
     "references": [
-        "VContainer"
+        "VContainer",
+        "GameModules.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

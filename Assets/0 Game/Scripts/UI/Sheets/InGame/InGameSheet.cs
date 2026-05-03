@@ -11,6 +11,8 @@ using GameModules.UI.Services;
 using TMPro;
 using UnityEngine;
 using VContainer;
+using GameModules.DataManager;
+using Game.Gameplay.Data.Provider;
 
 namespace Game.UI
 {
@@ -22,6 +24,7 @@ namespace Game.UI
         private IGameplayService _gameplayService;
         private IGlobalEventBus _eventBus;
         private IUINavigationService _uiService;
+        private DataManager _dataManager;
 
         private int _total;
         private int _collected;
@@ -32,6 +35,7 @@ namespace Game.UI
             _gameplayService = Resolver.Resolve<IGameplayService>();
             _eventBus = Resolver.Resolve<IGlobalEventBus>();
             _uiService = Resolver.Resolve<IUINavigationService>();
+            _dataManager = Resolver.Resolve<DataManager>();
             SubscribeToEvents();
             LoadAndInitializeLevel();
         }
@@ -40,7 +44,7 @@ namespace Game.UI
         {
             base.OnWillEnter();
 
-            if (Data != null)
+            if (Data != null && _levelText != null)
             {
                 _levelText.text = $"Level {Data.Level}";
             }
@@ -76,14 +80,17 @@ namespace Game.UI
                 return;
             }
 
+            if (_levelText != null)
+            {
+                _levelText.text = $"Level {Data.Level}";
+            }
+
             LevelData levelData = LoadLevelData(Data.Level);
             if (levelData == null)
             {
                 Debug.LogError($"InGameSheet: Failed to load LevelData for level {Data.Level}");
                 return;
             }
-
-            Debug.Log($"{JsonUtility.ToJson(levelData)}");
 
             _total = levelData.nodes.Count;
             _collected = 0;
@@ -97,30 +104,19 @@ namespace Game.UI
         {
             string path = $"Levels/Level_{level}";
             var levelDataText = Resources.Load<TextAsset>(path);
+            if (levelDataText == null)
+            {
+                levelDataText = Resources.Load<TextAsset>($"Levels/Level_1");
+            }
             var levelData = JsonUtility.FromJson<LevelData>(levelDataText.text);
             if (levelData == null)
             {
                 Debug.LogWarning($"LevelData not found at path: {path}. Creating test level data.");
-                levelData = CreateTestLevelData();
             }
 
             return levelData;
         }
-
-        private LevelData CreateTestLevelData()
-        {
-            LevelData testData = new LevelData
-            {
-                gridSize = new Vector2Int(5, 5), nodes = new List<NodeData>
-                {
-                    new NodeData { position = new Vector2(0, 0), direction = DirectionType.Right }
-                    , new NodeData { position = new Vector2(1, 0), direction = DirectionType.Up }
-                    , new NodeData { position = new Vector2(0, 1), direction = DirectionType.Down },
-                }
-            };
-            return testData;
-        }
-
+        
         private void OnLevelInitialized(LevelInitializedEvent evt) { }
 
         private void OnTileMoved(TileMovedEvent evt)
@@ -170,12 +166,56 @@ namespace Game.UI
         {
             if (result.Action == VictoryAction.Home)
             {
-                await _uiService.ShowSheetAsync<OutGameSheetData, OutGameSheetResult>("OutGameSheet");
+                SaveProgress(Data.Level + 1);
+                await GoHome();
             }
             else if (result.Action == VictoryAction.NextLevel)
             {
                 int nextLevel = Data.Level + 1;
+                SaveProgress(nextLevel);
                 await LoadNextLevel(nextLevel);
+            }
+        }
+
+        private async UniTask GoHome()
+        {
+            _uiService.ShowPopupAsync<LoadingPopupData, LoadingPopupResult>("LoadingPopup").Forget();
+            await UniTask.Delay(TimeSpan.FromSeconds(0.4f));
+            try
+            {
+                await _uiService.CloseSheetAsync();
+                await _uiService.ShowSheetAsync<OutGameSheetData, OutGameSheetResult>("OutGameSheet");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally
+            {
+                await _uiService.ClosePopupAsync();
+            }
+        }
+
+        private void SaveProgress(int nextLevel)
+        {
+            if (_dataManager != null)
+            {
+                var progress = _dataManager.GetData("Game.Gameplay.Data.Provider.GameProgressProvider") as GameProgress;
+                if (progress != null && nextLevel > progress.HighestLevel)
+                {
+                    progress.HighestLevel = nextLevel;
+                    _dataManager.SaveData("Game.Gameplay.Data.Provider.GameProgressProvider");
+                    Debug.Log($"[InGameSheet] Đã lưu thành công HighestLevel mới: {nextLevel}");
+                }
+                else if (progress == null)
+                {
+                    Debug.LogError("[InGameSheet] Tìm thấy DataManager nhưng GetData trả về null!");
+                }
+            }
+            else
+            {
+                Debug.LogError("[InGameSheet] LỖI: Không có DataManager được Inject. Hãy kiểm tra lại DataManagerInstaller!");
             }
         }
 

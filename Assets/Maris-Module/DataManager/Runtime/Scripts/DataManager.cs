@@ -55,6 +55,8 @@ namespace GameModules.DataManager
             {
                 ValidateRegistry();
             }
+            
+            DontDestroyOnLoad(this);
         }
 
         private void Start() { InitializeProviders(); }

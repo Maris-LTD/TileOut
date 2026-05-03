@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: DataProviderRegistry
   m_EditorClassIdentifier: 
   providers:
-  - moduleName: 'AnimationSystem '
-    className: GameModules.AnimationSystem.DataProviders.AnimationControllerGraphProvider,
-      GameModules.AnimationSystem, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    description: "Provider \u0111\u1ECDc ControllerGraphDefinition cho Animation
-      System"
+  - moduleName: GameProgress
+    className: Game.Gameplay.Data.Provider.GameProgressProvider
+    description: 
     isEnabled: 1
     priority: 0
   autoDiscoverProviders: 1

@@ -90,7 +90,6 @@ namespace MateInN.UI
                     .SetEase(Ease.InQuad)
                     .AsyncWaitForCompletion();
             }
-
             await SceneManager.LoadSceneAsync(targetSceneName);
         }
     }

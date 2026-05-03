@@ -132,6 +132,11 @@ namespace GameModules.UI.Services
                 var currentModal = _containerManager.PopupContainer.Current.View;
                 if (currentModal != null)
                 {
+                    if (currentModal is BasePopup<TData, TResult> p)
+                    {
+                        p.Data = data;
+                    }
+                    
                     InjectDependenciesToModal(currentModal);
                     
                     if (currentModal is BasePopup<TData, TResult> popup)
@@ -208,6 +213,11 @@ namespace GameModules.UI.Services
             var activeSheet = _containerManager.SheetContainer.ActiveSheet;
             if (activeSheet != null)
             {
+                if (activeSheet is BaseSheet<TData, TResult> bs)
+                {
+                    bs.Data = data;
+                }
+                
                 InjectDependenciesToSheet(activeSheet);
                 
                 if (activeSheet is BaseSheet<TData, TResult> baseSheet)

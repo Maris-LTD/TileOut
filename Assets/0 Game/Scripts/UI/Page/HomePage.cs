@@ -9,6 +9,8 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using uPools;
 using VContainer;
+using GameModules.DataManager;
+using Game.Gameplay.Data.Provider;
 
 namespace MateInN.UI
 {
@@ -24,11 +26,13 @@ namespace MateInN.UI
         private readonly List<LevelChainNode> _levelChainNodes = new();
 
         private IUINavigationService _uiService;
+        private DataManager _dataManager;
 
         protected override void OnDependencyInjected()
         {
             base.OnDependencyInjected();
             _uiService = _objectResolver.Resolve<IUINavigationService>();
+            _dataManager = _objectResolver.Resolve<DataManager>();
             UpdateLevelChain(true);
         }
 
@@ -65,7 +69,7 @@ namespace MateInN.UI
 
             _levelChainNodes.Clear();
 
-            int currentLevelIndex = 1;
+            int currentLevelIndex = GetCurrentLevel();
             int count = CalculateAllNodeOnLevelChain();
 
             for (int i = 0; i < count; i++)
@@ -103,9 +107,22 @@ namespace MateInN.UI
             }
         }
 
+        private int GetCurrentLevel()
+        {
+            if (_dataManager != null)
+            {
+                var progress = _dataManager.GetData("Game.Gameplay.Data.Provider.GameProgressProvider") as GameProgress;
+                if (progress != null)
+                {
+                    return progress.HighestLevel;
+                }
+            }
+            return 1;
+        }
+
         private void OnPlayClick()
         {
-            int currentLevel = 1;
+            int currentLevel = GetCurrentLevel();
             ShowLoadingPopup(currentLevel).Forget();
         }
 
@@ -138,7 +155,7 @@ namespace MateInN.UI
                     Level = levelIndex
                 };
 
-                var result = await _uiService.ShowSheetAsync<InGameSheetData, InGameSheetResult>(
+                await _uiService.ShowSheetAsync<InGameSheetData, InGameSheetResult>(
                     "InGameSheet",
                     sheetData
                 );
